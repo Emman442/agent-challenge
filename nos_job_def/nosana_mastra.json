@@ -4,19 +4,10 @@
       "id": "agents",
       "args": {
         "gpu": true,
-        "image": "docker.io/emmanuel2002/agent-challenge:latest",
+        "image": "docker.io/yourusername/agent-challenge:latest",
         "expose": [
           {
-            "port": 8080,
-            "health_checks": [
-              {
-                "path": "/health",
-                "type": "http",
-                "method": "GET",
-                "continuous": true,
-                "expected_status": 200
-              }
-            ]
+            "port": 8080
           }
         ],
         "entrypoint": [

@@ -1,59 +1,125 @@
-# Solana Smart Contract Auditor Workflow
+# 🛡️ Solana Smart Contract Auditor
 
-This project provides a modular, automated auditing workflow for **Solana smart contracts** (written in Rust and Anchor). It performs static analysis, dynamic simulations, and auto-fix suggestions on Solana programs to detect vulnerabilities and enhance security.
-
----
-
-## 🚨 Problem
-
-Auditing Solana smart contracts is **complex, time-consuming, and error-prone**. Developers must:
-- Manually review code for missing signer checks, overflow risks, and PDA validation.
-- Simulate attacks to verify protections against exploits like reentrancy.
-- Fix issues manually, often overlooking subtle vulnerabilities.
-
-This creates significant risks for Solana developers and protocols.
+> **An automated auditing agent for Solana smart contracts**, powered by the [Mastra framework](https://github.com/nosana-ci/mastra) and deployed on the decentralized GPU network [Nosana](https://nosana.io).
 
 ---
 
-## ✅ Solution
+## ⚠️ The Problem
 
-This workflow automates the entire auditing process:
+Auditing Solana smart contracts is:
+- 🕵️ Manual and error-prone
+- ⌛ Time-consuming
+- 🧠 Requires expert knowledge of Anchor, signer validation, and PDA derivation
 
-### 1. **Static Analysis**  
-Performs in-depth static audits, identifying:
-- Missing signer checks (`is_signer`)
-- PDA seed verification  
-- Integer overflows & underflows  
-- Reentrancy issues  
-- Account & rent checks  
-- Access control flaws
-
-### 2. **Dynamic Analysis**  
-Generates **attack simulations** based on static analysis:
-- Exploits vulnerabilities
-- Tests edge cases
-- Simulates reentrancy and overflow attacks
-
-### 3. **Auto-Fix**  
-Automatically generates secure, improved versions of the contract code:
-- Comments on each fix  
-- Uses Anchor constraints for validations  
-- Replaces unsafe operations  
-- Adds proper error handling
+Missed vulnerabilities can lead to **major financial exploits**. Yet developers often lack tools to detect them early.
 
 ---
 
-## How It Works
+## ✅ The Solution
 
-1. **Input**: Solana smart contract code (Rust/Anchor).
-2. Workflow runs:
-   - Static Analysis
-   - Dynamic Simulation
-   - Auto-Fix Suggestions
-3. Returns:
-   - List of vulnerabilities + severity
-   - Simulation reports
-   - Fixed code with a summary and confidence score.
+The **Solana Smart Contract Auditor** automates the full auditing workflow:
+
+### 🔍 Static Analysis
+Flags common security issues in Anchor/Rust code:
+- ❌ Missing `is_signer` validations
+- 🔐 Insecure PDA derivation
+- 🔁 Reentrancy issues
+- 📏 Arithmetic overflows/underflows
+- 🔒 Access control flaws
+- 🧾 Rent exemption and account checks
+
+### 🧪 Attack Simulation
+Dynamically tests your code using:
+- Edge-case fuzzing
+- Malicious reentrancy loops
+- Unsafe PDA inputs
+- Overflow simulations
+
+### 🤖 Auto-Fix Suggestions
+Automatically generates secure code fixes:
+- Adds Anchor constraints
+- Enforces signer/PDA checks
+- Replaces unsafe math ops
+- Annotates changes with comments
 
 ---
 
+## ⚙️ How It Works
+
+1. You input your Solana program code (Rust/Anchor)
+2. The agent runs:
+   - `StaticAnalysisAgent`
+   - `AttackSimulationAgent`
+   - `AutoFixAgent`
+3. It returns:
+   - A list of vulnerabilities with severity
+   - Simulated attack results
+   - Auto-fixed code suggestions with explanations
+
+---
+
+## 🚀 Getting Started
+
+### 1. Clone the Repository
+
+```bash
+git clone https://github.com/yourname/solana-auditor.git
+cd solana-auditor
+```
+You can test the agent using the following prompt which contains alot of Solana program(smart contract) vunerabilities:
+
+```bash
+Please audit the following Solana smart contract for vulnerabilities, inefficiencies, and best practice issues:
+
+
+use anchor_lang::prelude::*;
+
+#[program]
+pub mod config_manager {
+    use super::*;
+    
+    pub fn update_config(ctx: Context<UpdateConfig>, new_value: u64) -> Result<()> {
+        let config = &mut ctx.accounts.config;
+        
+        // No initialization check
+        config.value = new_value;
+        config.last_updated = Clock::get()?.unix_timestamp;
+        
+        Ok(())
+    }
+    
+    pub fn get_config_value(ctx: Context<GetConfig>) -> Result<u64> {
+        let config = &ctx.accounts.config;
+        
+        // Direct access without validation
+        Ok(config.value)
+    }
+}
+
+#[account]
+pub struct Config {
+    pub value: u64,
+    pub last_updated: i64,
+    pub admin: Pubkey,
+}
+
+#[derive(Accounts)]
+pub struct UpdateConfig<'info> {
+    #[account(mut)]
+    pub config: Account<'info, Config>,
+    pub admin: Signer<'info>,
+}
+
+#[derive(Accounts)]
+pub struct GetConfig<'info> {
+    pub config: Account<'info, Config>,
+}
+
+```
+
+
+[Proof of deployment](https://4sb6su725eyqdyvzbjt249i3nu2qihrbhnxcp4jydxkh.node.k8s.prd.nos.ci/agents/agent/chat)
+
+[Demo Video](https://x.com/VersatileBeingX/status/1944419258911309876)
+
+[Twitter Post](https://x.com/VersatileBeingX/status/1944419258911309876)
