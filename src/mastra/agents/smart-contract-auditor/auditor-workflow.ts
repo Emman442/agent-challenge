@@ -1,5 +1,3 @@
-
-// src/workflows/solana-audit-workflow.ts
 import { createStep, createWorkflow } from "@mastra/core/workflows";
 import { z } from "zod";
 import { agent } from "./auditor-agent"
@@ -268,38 +266,15 @@ export const auditorWorkflow = createWorkflow({
   .then(dynamicAnalysis)
   .then(autoFix);
 
-// Commit the workflow
 auditorWorkflow.commit();
 
-// // Usage example
-// export async function auditContract(code: string, options?: {
-//   programId?: string;
-//   fileName?: string;
-//   testCases?: string[];
-// }) {
-//   try {
-//     const result = await auditorWorkflow.execute({
-//       code,
-//       programId: options?.programId,
-//       fileName: options?.fileName,
-//       testCases: options?.testCases,
-//     });
 
-//     return result;
-//   } catch (error) {
-//     console.error("Audit workflow failed:", error);
-//     throw error;
-//   }
-// }
-
-// Helper function to validate Solana program structure
 export function validateSolanaProgram(code: string): {
   isValid: boolean;
   errors: string[];
 } {
   const errors: string[] = [];
 
-  // Basic validation checks
   if (!code.includes("use anchor_lang::prelude::*") && !code.includes("use solana_program::")) {
     errors.push("Missing Solana/Anchor imports");
   }
