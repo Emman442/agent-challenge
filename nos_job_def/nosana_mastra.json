@@ -4,7 +4,7 @@
       "id": "agents",
       "args": {
         "gpu": true,
-        "image": "docker.io/emmanuel2002/smart-contract-auditor:latest",
+        "image": "docker.io/emmanuel2002/agent-challenge:latest",
         "expose": [
           {
             "port": 8080,
