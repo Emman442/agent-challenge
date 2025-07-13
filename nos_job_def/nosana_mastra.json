@@ -7,7 +7,16 @@
         "image": "docker.io/emmanuel2002/smart-contract-auditor:latest",
         "expose": [
           {
-            "port": 8080
+            "port": 8080,
+            "health_checks": [
+              {
+                "path": "/health",
+                "type": "http",
+                "method": "GET",
+                "continuous": true,
+                "expected_status": 200
+              }
+            ]
           }
         ],
         "entrypoint": [
