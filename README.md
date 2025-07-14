@@ -21,14 +21,14 @@ The **Solana Smart Contract Auditor** automates the full auditing workflow:
 
 ### 🔍 Static Analysis
 Flags common security issues in Anchor/Rust code:
-- ❌ Missing `is_signer` validations
-- 🔐 Insecure PDA derivation
-- 🔁 Reentrancy issues
-- 📏 Arithmetic overflows/underflows
-- 🔒 Access control flaws
-- 🧾 Rent exemption and account checks
+-  Missing `is_signer` validations
+-  Insecure PDA derivation
+-  Reentrancy issues
+-  Arithmetic overflows/underflows
+-  Access control flaws
+-  Rent exemption and account checks
 
-### 🧪 Attack Simulation
+###  Attack Simulation
 Dynamically tests your code using:
 - Edge-case fuzzing
 - Malicious reentrancy loops
@@ -44,7 +44,7 @@ Automatically generates secure code fixes:
 
 ---
 
-## ⚙️ How It Works
+##  How It Works
 
 1. You input your Solana program code (Rust/Anchor)
 2. The agent runs:
@@ -123,3 +123,5 @@ pub struct GetConfig<'info> {
 [Demo Video](https://x.com/VersatileBeingX/status/1944419258911309876)
 
 [Twitter Post](https://x.com/VersatileBeingX/status/1944419258911309876)
+
+[Docker Container/Image](https://hub.docker.com/r/emmanuel2002/agent-challenge/tags)
